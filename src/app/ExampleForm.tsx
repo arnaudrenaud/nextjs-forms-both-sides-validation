@@ -5,7 +5,7 @@ import { exampleActionSchema } from "@/app/exampleAction/exampleActionSchema";
 import { useFormServerAction } from "@/lib/browser/useFormServerAction";
 
 export default function ExampleForm() {
-  const { form, submit } = useFormServerAction(
+  const { form, submit, action } = useFormServerAction(
     exampleActionSchema,
     exampleAction
   );
@@ -17,6 +17,7 @@ export default function ExampleForm() {
         <input type="email" {...form.register("email")} />
       </label>
       <button>Submit</button>
+      {action.data && <div className="text-green-500">{action.data}</div>}
     </form>
   );
 }
