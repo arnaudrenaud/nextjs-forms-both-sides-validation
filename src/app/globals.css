@@ -8,6 +8,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --button-active: #777;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,4 +23,37 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+input {
+  width: 240px;
+  height: 40px;
+  padding: 8px;
+  border: 1px solid var(--foreground);
+  border-radius: 8px;
+}
+
+button {
+  align-self: flex-start;
+  height: 40px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
+button:active:enabled {
+  background-color: var(--button-active);
 }

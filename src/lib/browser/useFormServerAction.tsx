@@ -13,7 +13,7 @@ export type ServerActionContext = undefined;
  * it provides both form state and action state.
  *
  * @param formSchema the Zod form schema.
- * @param actionOnSubmit a server action that expects data of the same schema (created using `serverAction` from `@/lib/server-actions/server-actions`).
+ * @param actionOnSubmit a server action that expects data of the same schema (created using `makeServerAction` from `@/lib/server/makeServerAction.ts`).
  * @param options React Hook Form's `useForm` options.
  *
  * @returns an object with:
@@ -22,36 +22,29 @@ export type ServerActionContext = undefined;
  * - the `submit` function that you can pass to your form's `onSubmit`
  * - the `action` object with its execution state (`isPending`, `data`, `error`, `isError`, `isSuccess`…).
  */
-export function useFormServerAction<
-  InputSchemaType extends z.ZodType,
-  ReturnType
->(
-  actionOnSubmit: {
-    inputSchema: InputSchemaType;
-    action: THandlerFunc<
-      ZodSchema,
-      undefined,
-      "ShapeErrorNotSet",
-      Promise<ReturnType>,
-      ServerActionContext,
-      "json",
-      false
-    >;
-  },
-  options?: UseFormProps<InputSchemaType>
+export function useFormServerAction<FormSchema extends z.ZodType, ReturnType>(
+  formSchema: FormSchema,
+  actionOnSubmit: THandlerFunc<
+    ZodSchema,
+    undefined,
+    "ShapeErrorNotSet",
+    Promise<ReturnType>,
+    ServerActionContext,
+    "json",
+    false
+  >,
+  options?: UseFormProps<FormSchema>
 ) {
-  const { action, inputSchema } = actionOnSubmit;
-
-  const form = useForm<z.infer<typeof inputSchema>>({
-    resolver: zodResolver(inputSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     ...options,
   });
 
-  const executableAction = useServerAction(action);
+  const action = useServerAction(actionOnSubmit);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    void form.handleSubmit((input) => executableAction.execute(input))(event);
+    void form.handleSubmit((input) => action.execute(input))(event);
   };
 
   return {

@@ -15,10 +15,7 @@ export function makeServerAction<Input, ReturnValue>(
   inputSchema: ZodSchema<Input>,
   handler: (input: Input) => Promise<ReturnValue>
 ) {
-  return {
-    inputSchema,
-    action: createServerAction()
-      .input(inputSchema)
-      .handler(async ({ input }) => handler(input)),
-  };
+  return createServerAction()
+    .input(inputSchema)
+    .handler(async ({ input }) => handler(input));
 }
