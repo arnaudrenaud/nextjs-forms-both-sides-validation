@@ -16,7 +16,9 @@ export default function ExampleForm() {
         Email address:
         <input type="email" {...form.register("email")} />
       </label>
-      <button>Submit</button>
+      <button disabled={action.isPending}>
+        {action.isPending ? "Loading…" : "Submit"}
+      </button>
       {action.data && <div className="text-green-500">{action.data}</div>}
     </form>
   );
