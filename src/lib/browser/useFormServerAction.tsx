@@ -38,6 +38,7 @@ export function useFormServerAction<FormSchema extends z.ZodType, ReturnType>(
 ) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: "onBlur",
     ...options,
   });
 
