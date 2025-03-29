@@ -5,7 +5,12 @@ import { schema } from "@/app/example/schema";
 import { action } from "@/app/example/action";
 
 export function Form() {
-  const { form, fieldErrors, submit } = useFormServerAction(schema, action);
+  const {
+    form,
+    fieldErrors,
+    submit,
+    action: { result },
+  } = useFormServerAction(schema, action);
 
   return (
     <form onSubmit={submit}>
@@ -18,6 +23,10 @@ export function Form() {
       )}
 
       <button>Submit</button>
+
+      {result.data && (
+        <div className="text-green-500">{result.data.message}</div>
+      )}
     </form>
   );
 }
