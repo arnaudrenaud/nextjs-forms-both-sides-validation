@@ -29,6 +29,10 @@ export function Form() {
       {result.data && (
         <div className="text-green-500">{result.data.message}</div>
       )}
+
+      {result.serverError && (
+        <div className="text-red-500">{result.serverError}</div>
+      )}
     </form>
   );
 }
