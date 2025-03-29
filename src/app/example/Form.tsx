@@ -9,7 +9,7 @@ export function Form() {
     form,
     fieldErrors,
     submit,
-    action: { result },
+    action: { isExecuting, result },
   } = useFormServerAction(schema, action);
 
   return (
@@ -22,7 +22,9 @@ export function Form() {
         <div className="text-sm text-red-500">{fieldErrors.email.message}</div>
       )}
 
-      <button>Submit</button>
+      <button disabled={isExecuting}>
+        {isExecuting ? "Loading…" : "Submit"}
+      </button>
 
       {result.data && (
         <div className="text-green-500">{result.data.message}</div>
